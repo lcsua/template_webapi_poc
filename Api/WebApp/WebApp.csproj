@@ -4,5 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Aplication\Commands\" />
+    <Folder Include="Core\Aplication\Queries\" />
+    <Folder Include="Core\Domain\Entities\" />
+    <Folder Include="Infrastructure\Data\" />
+    <Folder Include="Infrastructure\Repositories\" />
+  </ItemGroup>
+
 
 </Project>
