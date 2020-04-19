@@ -5,10 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Aplication\Commands\" />
-    <Folder Include="Core\Aplication\Queries\" />
+    <Folder Include="Core\Aplication\Customers\Commands\" />
+    <Folder Include="Core\Aplication\Customers\" />
+    <Folder Include="Core\Aplication\Customers\Queries\" />
     <Folder Include="Infrastructure\Data\" />
-    <Folder Include="Infrastructure\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 
