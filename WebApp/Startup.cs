@@ -29,6 +29,16 @@ namespace WebApp
         {
             services.AddControllers();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddSwaggerGen(setup =>
+            {
+                setup.SwaggerDoc(
+                    "LibraryOpenAPISpecification",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title ="poc api",
+                        Version="1"
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +48,13 @@ namespace WebApp
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/LibraryOpenAPISpecification/swagger.json",
+                    "poc api");
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();
