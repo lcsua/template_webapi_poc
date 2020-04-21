@@ -29,6 +29,13 @@ namespace WebApp
         {
             services.AddControllers();
             services.AddSingleton<ICustomerRepository, CustomerRepository>();
+            services.AddApiVersioning(setupAction => 
+            {
+                setupAction.AssumeDefaultVersionWhenUnspecified = true;
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+                setupAction.ReportApiVersions = true;
+
+            });
             services.AddSwaggerGen(setup =>
             {
                 setup.SwaggerDoc(
