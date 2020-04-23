@@ -8,7 +8,10 @@ using Microsoft.Extensions.Logging;
 namespace WebApp.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("2.0")] //justo fot
+    [Produces("application/json",
+              "application/xml")]
+    [Route("api/v{version:apiVersion}/[controller]")]   
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
