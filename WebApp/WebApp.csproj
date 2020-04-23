@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\lcsua\Dropbox\Dev\Public-git\Templates\webapi_poc\WebApp\WebApp.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="Core\Aplication\Customers\Commands\" />
     <Folder Include="Core\Aplication\Customers\" />

@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using WebApp.Core.Aplication.Interfaces;
 using WebApp.Infrastructure.Repositories;
 
@@ -36,32 +42,35 @@ namespace WebApp
                 setupAction.ReportApiVersions = true;
 
             });
-            services.AddSwaggerGen(setup =>
+            services.AddVersionedApiExplorer(
+               options =>
+               {
+                   options.GroupNameFormat = "'v'VV";
+                   options.SubstituteApiVersionInUrl = true;
+               });
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            services.AddTransient<IConfigureOptions<SwaggerUIOptions>, ConfigureSwaggerUIOptions>();
+
+            services.AddSwaggerGen(setupAction  =>
             {
-                setup.SwaggerDoc(
-                    "LibraryOpenAPISpecification",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title ="poc api",
-                        Version="1"
-                    });
-            });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                setupAction.IncludeXmlComments(xmlPath);
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseSwagger();
-            app.UseSwaggerUI(setupAction =>
-            {
-                setupAction.SwaggerEndpoint(
-                    "/swagger/LibraryOpenAPISpecification/swagger.json",
-                    "poc api");
-            });
+
+            app.UseSwaggerUI();    
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
